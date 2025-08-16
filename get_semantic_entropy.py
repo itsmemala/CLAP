@@ -75,7 +75,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('model_name', type=str, default='llama_7B')
     parser.add_argument('dataset_name', type=str, default='tqa_mc2')
-    parser.add_argument('--len_dataset', type=int, default=None)
+    parser.add_argument('--len_dataset', type=int, default=5000)
     parser.add_argument('--num_samples', type=int, default=10)
     parser.add_argument('--device', type=int, default=0)
     parser.add_argument("--model_dir", type=str, default=None)

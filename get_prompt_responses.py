@@ -34,7 +34,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('model_name', type=str, default='llama_7B')
     parser.add_argument('dataset_name', type=str, default='trivia_qa')
-    parser.add_argument('--len_dataset', type=int, default=0)
+    parser.add_argument('--len_dataset', type=int, default=5000)
     parser.add_argument('--start_at', type=int, default=0)
     parser.add_argument('--use_split', type=str, default='train')
     parser.add_argument('--hallu_check_prompt', type=int, default=None)

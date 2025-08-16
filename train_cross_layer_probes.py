@@ -113,7 +113,7 @@ def main():
     parser.add_argument('--token', type=str, default='answer_last')
     parser.add_argument('--max_answer_tokens', type=int, default=20)
     parser.add_argument('--use_pe', type=bool, default=False)
-    parser.add_argument('--method', type=str, default='transformer')
+    parser.add_argument('--method', type=str, default='transformer') # One of {'clap','linear','project_linear','project_non_linear'}
     parser.add_argument('--n_blocks', type=int, default=1)
     parser.add_argument('--use_layers_list', type=list_of_ints, default=None)
     parser.add_argument('--ind_att_pool_probes_path', type=str, default=None)
@@ -132,10 +132,10 @@ def main():
     parser.add_argument('--len_dataset', type=int, default=5000)
     parser.add_argument('--num_samples', type=int, default=1)
     parser.add_argument('--test_num_samples', type=int, default=1)
-    parser.add_argument('--bs', type=int, default=4)
+    parser.add_argument('--bs', type=int, default=128)
     parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('--lr', type=float, default=None)
-    parser.add_argument('--lr_list', type=list_of_floats, default=0.05)
+    parser.add_argument('--lr_list', type=list_of_floats, default=0.00005,0.0005,0.005,0.05,0.5)
     parser.add_argument('--scheduler', type=str, default='warmup_cosanneal')
     parser.add_argument('--best_using_auc', type=bool, default=False)
     parser.add_argument('--best_as_last', type=bool, default=False)
@@ -152,7 +152,7 @@ def main():
     parser.add_argument('--wpdist_metric', type=str, default='euclidean')
     parser.add_argument('--test_bs', type=int, default=128)
     parser.add_argument('--save_path', type=str, default='')
-    parser.add_argument('--seed_list', type=list_of_ints, default=42)
+    parser.add_argument('--seed_list', type=list_of_ints, default=42,101,2650)
     parser.add_argument('--supcon_temp_list', type=list_of_floats, default=None)
     parser.add_argument('--wnb_plot_name', type=str, default=None) # Wandb args
     parser.add_argument('--tag', type=str, default=None) # Wandb args
@@ -259,7 +259,7 @@ def main():
                         nlinear_model = My_SupCon_NonLinear_Classifier4(input_size=act_dims, output_size=1, bias=bias, use_dropout=args.use_dropout, supcon=False, norm_emb=args.norm_emb, norm_cfr=args.norm_cfr, cfr_no_bias=args.cfr_no_bias).to(device)
                 elif args.method=='project_linear': 
                     nlinear_model = My_Projection_w_Classifier_Layer(n_inputs=act_dims, n_layers=num_layers_to_use, n_outputs=1, bias=bias, batch_norm=args.use_batch_norm, supcon=args.use_supcon_loss, norm_emb=args.norm_emb, norm_cfr=args.norm_cfr, cfr_no_bias=args.cfr_no_bias, d_model=args.tfr_d_model, no_act_proj=args.no_act_proj).to(device)
-                elif args.method=='project_non_linear_4':
+                elif args.method=='project_non_linear':
                     nlinear_model = My_Projection_w_Classifier_Layer(n_inputs=act_dims, n_layers=num_layers_to_use, n_outputs=1, bias=bias, batch_norm=args.use_batch_norm, supcon=args.use_supcon_loss, norm_emb=args.norm_emb, norm_cfr=args.norm_cfr, cfr_no_bias=args.cfr_no_bias, d_model=args.tfr_d_model, no_act_proj=args.no_act_proj, non_linear=True).to(device)
                 elif args.method=='ens_att_pool': 
                     ind_att_pool_probes_path = f'{args.save_path}/probes/models/{args.ind_att_pool_probes_path}_model{i}'
